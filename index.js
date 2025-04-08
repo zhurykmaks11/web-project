@@ -23,7 +23,7 @@ function renderList() { //оновити list в HTML
         checkbox.classList.add("checkbox");
 
         console.log("cheked: " + tasks.checked);
-        checkbox.checked = tasks.checked;
+        checkbox.checked = item.checked;
 
         checkbox.addEventListener("change", () => {
             item.checked = !item.checked;
@@ -50,6 +50,8 @@ function renderList() { //оновити list в HTML
         li.appendChild(label_task);
         li.appendChild(btnDelete);
         listTasks.appendChild(li);
+
+        toggleCrossedById(item.id);
 
     })
 }
