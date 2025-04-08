@@ -8,8 +8,6 @@ let tasks = Array.from(listTasks.children).map(li => {
     };
 });
 
-renderList();
-
 function renderList() { //оновити list в HTML
     listTasks.innerHTML = "";
     tasks.forEach(item =>  {
@@ -23,7 +21,14 @@ function renderList() { //оновити list в HTML
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.classList.add("checkbox");
-        checkbox.checked = item.checked;
+
+        console.log("cheked: " + tasks.checked);
+        checkbox.checked = tasks.checked;
+
+        checkbox.addEventListener("change", () => {
+            item.checked = !item.checked;
+            toggleCrossedById(item.id);
+        });
 
         label_checkbox.appendChild(checkbox);
 
@@ -32,7 +37,6 @@ function renderList() { //оновити list в HTML
         task.type = "text";
         task.classList.add("task");
         task.value = item.task;
-        console.log(item.checked);
 
         label_task.appendChild(task);
 
@@ -69,13 +73,11 @@ function generateId(){
 }
 
 function addPTask() {
-    let div = document.querySelector(".wrapper");
     const input = document.querySelector(".add-task");
-    // console.log(input.value);
     let newTask = {
         id: generateId(),
         checked: false,
-        name:input.value.trim()
+        task: input.value.trim()
     };
 
     if (newTask.task !== "") {
@@ -83,4 +85,33 @@ function addPTask() {
         input.value = ""; // очищення інпуту після додавання
         renderList();
     }
+}
+
+function deleteTask(id){
+    console.log(id);
+    const taskToDelete = tasks.find(task => task.id === id);
+
+    if (!taskToDelete) return null;
+
+    tasks = tasks.filter(task => task.id !== id.toString());
+
+    renderList();
+}
+
+function toggleCrossedById(id) {
+    const listItems = document.querySelectorAll("#mainList li");
+
+    listItems.forEach(li => {
+        const p = li.querySelector(".invisible");
+        if (p && p.textContent === id) {
+            const taskInput = li.querySelector(".task");
+            const checkbox = li.querySelector(".checkbox");
+
+            if (checkbox.checked) {
+                taskInput.classList.add("crossed");
+            } else {
+                taskInput.classList.remove("crossed");
+            }
+        }
+    });
 }

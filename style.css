@@ -26,3 +26,6 @@ li {
 .invisible {
     display: none;
 }
+.crossed {
+    text-decoration: line-through;
+}
