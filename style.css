@@ -23,3 +23,6 @@ li {
     flex-direction: row;
     gap: 5px;
 }
+.invisible {
+    display: none;
+}
