@@ -8,7 +8,7 @@
 <body>
     <div class="wrapper">
         <label>Додати завдання: <input type="text" class="add-task"></label><br>
-        <button onclick="addPTask()">Add</button>
+        <button onclick="addTask()">Add</button>
     </div>
 
     <p>Завдання:</p>
@@ -26,6 +26,13 @@
 <!--            <button class="btn-delete">Delete</button>-->
 <!--        </li>-->
     </ul>
+
+    <label for="sort">Сортувати за:</label>
+    <select id="sort" onchange="sortTasks()">
+        <option value="created">Датою додавання</option>
+        <option value="updated">Датою оновлення</option>
+        <option value="status">Станом виконання</option>
+    </select>
 
 
 <script src="index.js"></script>

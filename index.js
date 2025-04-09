@@ -22,13 +22,19 @@ function renderList() { //оновити list в HTML
         checkbox.type = "checkbox";
         checkbox.classList.add("checkbox");
 
-        console.log("cheked: " + tasks.checked);
+        console.log("cheked: " + item.checked);
         checkbox.checked = item.checked;
 
         checkbox.addEventListener("change", () => {
-            item.checked = !item.checked;
+            item.checked = checkbox.checked;
+            item.updatedAt = new Date().toISOString();
             toggleCrossedById(item.id);
         });
+
+        // item.addEventListener("input", () => {
+        //     item.task = task.value;
+        //     item.updatedAt = new Date().toISOString();
+        // });
 
         label_checkbox.appendChild(checkbox);
 
@@ -74,17 +80,20 @@ function generateId(){
     return step.toString();
 }
 
-function addPTask() {
+function addTask() {
     const input = document.querySelector(".add-task");
+    const now = new Date();
     let newTask = {
         id: generateId(),
         checked: false,
-        task: input.value.trim()
+        task: input.value.trim(),
+        createdAt: now.toISOString(),
+        updatedAt: now.toISOString()
     };
 
     if (newTask.task !== "") {
         tasks.push(newTask);
-        input.value = ""; // очищення інпуту після додавання
+        input.value = "";
         renderList();
     }
 }
@@ -116,4 +125,22 @@ function toggleCrossedById(id) {
             }
         }
     });
+}
+
+function sortTasks() {
+    const sortType = document.getElementById("sort").value;
+
+    switch (sortType) {
+        case "created":
+            tasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            break;
+        case "updated":
+            tasks.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            break;
+        case "status":
+            tasks.sort((a, b) => a.checked - b.checked);
+            break;
+    }
+
+    renderList();
 }
